@@ -3,7 +3,16 @@ package com.example.rolebasedlogin;
 public class admin {
 
     private String username,email,password;
-    public String USER_TYPE = "as";
+    private String USER_TYPE ;
+
+    public String getUSER_TYPE() {
+        return USER_TYPE;
+    }
+
+    public void setUSER_TYPE(String USER_TYPE) {
+        this.USER_TYPE = USER_TYPE;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -28,9 +37,10 @@ public class admin {
         this.password = password;
     }
 
-    public admin(String username, String email, String password) {
+    public admin(String username, String email, String password,String userType) {
         this.username = username;
         this.email = email;
         this.password = password;
+        USER_TYPE = userType;
     }
 }

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     String uID = "12345678";
     String emailID = "admin@gmail.com";
     String password = "123456";
+    String as ="as";
 
 
     @Override
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance ();
 
 
-        admin (uID, username, emailID, password);
+        admin (uID,username,emailID,password,as);
         s.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -111,17 +112,17 @@ public class MainActivity extends AppCompatActivity {
                 databaseReference.addValueEventListener (new ValueEventListener () {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String s1 = u.getText ().toString ();
+                        String s1 = e.getText ().toString ();
                         String s2 = p.getText ().toString ();
                         if (snapshot.child (s1).exists ()) {
                             if (snapshot.child (s1).child ("password").getValue (String.class).equals (s2)) {
                                 if (active.isChecked ()) {
-                                    if (snapshot.child ("as").getValue (String.class).equals ("admins")) {
+                                    if (snapshot.child ("as").getValue (String.class).equals ("admin")) {
                                         prefrences.setDataAs (MainActivity.this, "admins");
                                         prefrences.setDataLogin (MainActivity.this, true);
                                         startActivity (new Intent (MainActivity.this, admin.class));
 
-                                    } else if (snapshot.child ("as").getValue (String.class).equals ("users")) {
+                                    } else if (snapshot.child ("as").getValue (String.class).equals ("user")) {
                                         prefrences.setDataAs (MainActivity.this, "users");
                                         prefrences.setDataLogin (MainActivity.this, true);
                                         startActivity (new Intent (MainActivity.this, User.class));
@@ -129,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             } else {
-                                if (snapshot.child ("as").getValue (String.class).equals ("admins")) {
+                                if (snapshot.child ("as").getValue (String.class).equals ("admin")) {
                                     prefrences.setDataLogin (MainActivity.this, false);
-                                } else if (snapshot.child ("as").getValue (String.class).equals ("users")) {
+                                } else if (snapshot.child ("as").getValue (String.class).equals ("user")) {
                                     prefrences.setDataLogin (MainActivity.this, false);
                                 }
                                 Toast.makeText (MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show ();
@@ -153,13 +154,14 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-    public void admin (String userID, String name, String email, String password){
-        admin admin = new admin (name, email, password);
+    public void admin (String userID, String name, String email, String password,String type){
+        admin admin = new admin (name, email, password,type);
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance ().getReference ().child ("Login").child ("admins").child (userID);
         mDatabase.child ("username").setValue (name);
         mDatabase.child ("password").setValue (password);
         mDatabase.child ("email ID").setValue (email);
+        mDatabase.child ("as").setValue ("admin");
 
 
     }
