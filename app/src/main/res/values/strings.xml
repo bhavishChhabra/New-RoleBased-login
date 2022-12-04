@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Role Based </string>
+    <string name="Email" translatable="false">Email</string>
+    <string name="Password" translatable="false">Password</string>
+    <string name="Login" translatable="false">Login</string>
+    <string name="Username" translatable="false">Username</string>
+    <string name="Rememberme" translatable="false">Remember Me</string>
+    <string name="Change" translatable="false">Change language</string>
+    <string name="Signup" translatable="false">signup</string>
+    <string name="email" translatable="false">Email ID</string>
+    <string name="signout" translatable="false">Log Out</string>
+
+</resources>
