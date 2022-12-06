@@ -1,14 +1,23 @@
 package com.example.rolebasedlogin;
 
+import static android.graphics.Color.RED;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,147 +31,170 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     Button l, s, c;
     EditText u, e, p;
-    Switch active;
     private FirebaseAuth firebaseAuth;
+    String currentLanguage = "en", currentLang;
 
     String username = "admin1234";
     String uID = "12345678";
     String emailID = "admin@gmail.com";
     String password = "123456";
-    String as ="as";
+    String as = "as";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);
-        l = findViewById (R.id.login);
-        active = findViewById (R.id.switch1);
-        s = findViewById (R.id.signup);
-        c = findViewById (R.id.change);
-        u = findViewById (R.id.user);
-        e = findViewById (R.id.email);
-        p = findViewById (R.id.pass);
-        firebaseAuth = FirebaseAuth.getInstance ();
-
-
-        admin (uID,username,emailID,password,as);
-        s.setOnClickListener (new View.OnClickListener () {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        l = findViewById(R.id.login);
+        s = findViewById(R.id.signup);
+        c = findViewById(R.id.change);
+        e = findViewById(R.id.email);
+        p = findViewById(R.id.pass);
+        firebaseAuth = FirebaseAuth.getInstance();
+        c.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                signUp ();
+            public void onClick(View view) {
+                ChangeLang();
             }
         });
-        l.setOnClickListener (new View.OnClickListener () {
+
+
+    admin(uID, username, emailID, password, as);
+        s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login ();
+                if(e.getText().toString().isEmpty()||p.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
+                }else{
+                    signUp();
+
+                }
+            }
+        });
+        l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(e.getText().toString().isEmpty()||p.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
+                }else{
+                    login();
+
+                }
             }
         });
 
     }
 
+    public void ChangeLang() {
+        final String lang[] = {"English", "हिन्दी"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        mBuilder.setTitle("Change Language");
+        mBuilder.setSingleChoiceItems(lang, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == 0) {
+                    setlocale("");
+                    recreate();
+                }
+                else if (i == 1) {
+                    setlocale("hi");
+                    recreate();
+                }
+            }
+        });
+
+        mBuilder.create();
+        mBuilder.show();
+    }
+
+    private void setlocale(String localeName) {
+        if (!localeName.equals(currentLanguage)) {
+            Locale myLocale;
+            myLocale = new Locale(localeName);
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.locale = myLocale;
+            res.updateConfiguration(conf, dm);
+            Intent refresh = new Intent(this, MainActivity.class);
+            refresh.putExtra(currentLang, localeName);
+            startActivity(refresh);
+        } else {
+            Toast.makeText(MainActivity.this, R.string.already, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void signUp() {
-        firebaseAuth.createUserWithEmailAndPassword (e.getText ().toString (), p.getText ().toString ())
-                .addOnCompleteListener
-                        (this, new OnCompleteListener<AuthResult> () {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful ()) {
-                                    Toast.makeText (MainActivity.this, "Success",
-                                            Toast.LENGTH_SHORT).show ();
+        if(e.getText().toString().equals(emailID)){
+            Toast.makeText(MainActivity.this, R.string.newEmail, Toast.LENGTH_SHORT).show();
+        }else {
+            firebaseAuth.createUserWithEmailAndPassword(e.getText().toString(), p.getText().toString())
+                    .addOnCompleteListener
+                            (this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, R.string.SuccessSign,
+                                                Toast.LENGTH_SHORT).show();
                                     DatabaseReference firebaseDatabase;
                                     firebaseDatabase = FirebaseDatabase.getInstance ().getReference ().child ("Login").child ("users")
                                             .child (task.getResult ().getUser ().getUid ());
-                                    firebaseDatabase.child ("Username").setValue (u.getText ().toString ());
+                                    firebaseDatabase.child ("email").setValue (e.getText ().toString ());
                                     firebaseDatabase.child ("Password").setValue (p.getText ().toString ());
                                     firebaseDatabase.child ("as").setValue ("user");
 
-                                } else {
-                                    Toast.makeText (MainActivity.this, "Failed", Toast.LENGTH_SHORT).show ();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, R.string.newEmail, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+        }
     }
 
     @Override
     protected void onStart() {
-        super.onStart ();
-        if (prefrences.setDataLogin (MainActivity.this)) {
-            if (prefrences.setDataAs (this).equals ("admin")) {
-                startActivity (new Intent (MainActivity.this, admin.class));
-            } else {
-
-                startActivity (new Intent (MainActivity.this, User.class));
-                finish ();
-            }
+        super.onStart();
+        FirebaseUser current = firebaseAuth.getCurrentUser();
+        if(current!=null){
+            startActivity(new Intent(MainActivity.this, User.class));
 
         }
     }
-    private void login () {
-        firebaseAuth.signInWithEmailAndPassword (e.getText ().toString (), p.getText ().toString ()).addOnCompleteListener (this, new OnCompleteListener<AuthResult> () {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance ().getReference ();
-                databaseReference.child ("login");
-                databaseReference.addValueEventListener (new ValueEventListener () {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String s1 = e.getText ().toString ();
-                        String s2 = p.getText ().toString ();
-                        if (snapshot.child (s1).exists ()) {
-                            if (snapshot.child (s1).child ("password").getValue (String.class).equals (s2)) {
-                                if (active.isChecked ()) {
-                                    if (snapshot.child ("as").getValue (String.class).equals ("admin")) {
-                                        prefrences.setDataAs (MainActivity.this, "admins");
-                                        prefrences.setDataLogin (MainActivity.this, true);
-                                        startActivity (new Intent (MainActivity.this, admin.class));
+    private void login() {
+        if (e.getText().toString().equals(emailID) && p.getText().toString().equals(password)) {
+            startActivity(new Intent(MainActivity.this, Admins.class));
+        } else {
+            firebaseAuth.signInWithEmailAndPassword(e.getText().toString(), p.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, R.string.Success,
+                                        Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, User.class));
 
-                                    } else if (snapshot.child ("as").getValue (String.class).equals ("user")) {
-                                        prefrences.setDataAs (MainActivity.this, "users");
-                                        prefrences.setDataLogin (MainActivity.this, true);
-                                        startActivity (new Intent (MainActivity.this, User.class));
-
-                                    }
-                                }
                             } else {
-                                if (snapshot.child ("as").getValue (String.class).equals ("admin")) {
-                                    prefrences.setDataLogin (MainActivity.this, false);
-                                } else if (snapshot.child ("as").getValue (String.class).equals ("user")) {
-                                    prefrences.setDataLogin (MainActivity.this, false);
-                                }
-                                Toast.makeText (MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show ();
+                                Toast.makeText(MainActivity.this, R.string.Failed, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText (MainActivity.this, "Incorrect Username", Toast.LENGTH_SHORT).show ();
                         }
-
-                    }
-
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-
-
-        });
+                    });
+        }
     }
-    public void admin (String userID, String name, String email, String password,String type){
-        admin admin = new admin (name, email, password,type);
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance ().getReference ().child ("Login").child ("admins").child (userID);
-        mDatabase.child ("username").setValue (name);
-        mDatabase.child ("password").setValue (password);
-        mDatabase.child ("email ID").setValue (email);
-        mDatabase.child ("as").setValue ("admin");
 
+    public void admin(String userID, String name, String email, String password, String type) {
+        admin admin = new admin(name, email, password, type);
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Login").child("admins").child(userID);
+        mDatabase.child("username").setValue(name);
+        mDatabase.child("password").setValue(password);
+        mDatabase.child("email ID").setValue(email);
+        mDatabase.child("as").setValue("admin");
 
     }
 }

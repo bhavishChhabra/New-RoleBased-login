@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">बहुभाषी</string>
+    <string name="Email">ईमेल</string>
+    <string name="Password">पासवर्ड</string>
+    <string name="Login">लॉग इन करें</string>
+    <string name="Rememberme">मुझे याद रखें</string>
+    <string name="Username">उपयोगकर्ता</string>
+    <string name="Change">भाषा बदलो</string>
+    <string name="Signup">साइन अप करें</string>
+    <string name="email">ईमेल</string>
+    <string name="signout">लॉग आउट करें</string>
+    <string name="newEmail">यह ईमेल पहले ही लिया जा चुका है</string>
+    <string name="already" translatable="false">भाषा पहले से ही चयनित है!</string>
+    <string name="Success">लॉगिंग सफल</string>
+    <string name="SuccessSign">साइन अप सफल!!</string>
+    <string name="Failed">गलत ईमेल या पासवर्ड</string>
+</resources>

@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">Role Based </string>
-    <string name="Email" translatable="false">Email</string>
-    <string name="Password" translatable="false">Password</string>
-    <string name="Login" translatable="false">Login</string>
-    <string name="Username" translatable="false">Username</string>
-    <string name="Rememberme" translatable="false">Remember Me</string>
-    <string name="Change" translatable="false">Change language</string>
-    <string name="Signup" translatable="false">signup</string>
-    <string name="email" translatable="false">Email ID</string>
-    <string name="signout" translatable="false">Log Out</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="Login">Login</string>
+    <string name="Username">Username</string>
+    <string name="Rememberme">Remember Me</string>
+    <string name="Change">Change language</string>
+    <string name="Signup">signup</string>
+    <string name="email">Email ID</string>
+    <string name="signout">Log Out</string>
+    <string name="admin" translatable="false">Admin Page</string>
+    <string name="user" translatable="false">User Page</string>
+    <string name="already">Language already selected!</string>
+    <string name="newEmail">This Email has already been taken</string>
+    <string name="Success">Logging Successful</string>
+    <string name="SuccessSign">Sign up Successful!!</string>
+    <string name="Failed">Incorrect Email or password</string>
+
 
 </resources>
