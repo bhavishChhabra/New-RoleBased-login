@@ -1,30 +1,49 @@
 package com.example.rolebasedlogin;
 
+import static android.content.ContentValues.TAG;
 import static android.graphics.Color.RED;
+
+import static com.example.rolebasedlogin.R.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,49 +52,93 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
-    Button l, s, c;
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    EditText uname, pass, conPass, emailsignup;
+
+    Button l;
+    ImageButton fb,google,number;
+    TextView  c,s;
     EditText u, e, p;
     private FirebaseAuth firebaseAuth;
     String currentLanguage = "en", currentLang;
-
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    BeginSignInRequest signInRequest;
     String username = "admin1234";
     String uID = "12345678";
     String emailID = "admin@gmail.com";
     String password = "123456";
     String as = "as";
+    private GoogleApiClient googleApiClient;
+    String idToken,name,email;
 
-
+    private static final int REQ_ONE_TAP = 1 ;  // Can be any integer unique to the Activity.
+    private boolean showOneTapUI = true;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        l = findViewById(R.id.login);
-        s = findViewById(R.id.signup);
-        c = findViewById(R.id.change);
-        e = findViewById(R.id.email);
-        p = findViewById(R.id.pass);
+        setContentView(layout.activity_main);
+        //MainActivity2
+        uname = findViewById(R.id.name);
+        pass = findViewById(R.id.password);
+        conPass = findViewById(R.id.confirmPassword);
+        emailsignup = findViewById(R.id.email);
+        //MainActivity
+        l = findViewById(id.login);
+        s = findViewById(id.signup);
+        c = findViewById(id.change);
+        e = findViewById(id.email);
+        p = findViewById(id.pass);
+        fb = findViewById(id.fb);
+        number = findViewById(id.number);
+        google = findViewById(id.google);
+        admin(uID, username, emailID, password, as);
         firebaseAuth = FirebaseAuth.getInstance();
+        s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (MainActivity.this,MainActivity2.class);
+//                intent.putExtra("email",emailID);
+                startActivity(intent);
+
+            }
+        });
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ChangeLang();
             }
         });
-
-
-    admin(uID, username, emailID, password, as);
-        s.setOnClickListener(new View.OnClickListener() {
+        GoogleSignInOptions gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(string.web_client_id))//you can also use R.string.default_web_client_id
+                .requestEmail()
+                .build();
+        googleApiClient=new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,MainActivity.this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+        number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(e.getText().toString().isEmpty()||p.getText().toString().isEmpty()){
-                    Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
-                }else{
-                    signUp();
+                startActivity(new Intent(MainActivity.this,otp.class));
 
-                }
             }
         });
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                twitterSignin();
+            }
+        });
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                signWithGoogle();
+            }
+        });
+
         l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +150,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    private void signWithGoogle() {
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(intent,REQ_ONE_TAP);
 
     }
 
@@ -125,36 +194,10 @@ public class MainActivity extends AppCompatActivity {
             refresh.putExtra(currentLang, localeName);
             startActivity(refresh);
         } else {
-            Toast.makeText(MainActivity.this, R.string.already, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, string.already, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void signUp() {
-        if(e.getText().toString().equals(emailID)){
-            Toast.makeText(MainActivity.this, R.string.newEmail, Toast.LENGTH_SHORT).show();
-        }else {
-            firebaseAuth.createUserWithEmailAndPassword(e.getText().toString(), p.getText().toString())
-                    .addOnCompleteListener
-                            (this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, R.string.SuccessSign,
-                                                Toast.LENGTH_SHORT).show();
-                                    DatabaseReference firebaseDatabase;
-                                    firebaseDatabase = FirebaseDatabase.getInstance ().getReference ().child ("Login").child ("users")
-                                            .child (task.getResult ().getUser ().getUid ());
-                                    firebaseDatabase.child ("email").setValue (e.getText ().toString ());
-                                    firebaseDatabase.child ("Password").setValue (p.getText ().toString ());
-                                    firebaseDatabase.child ("as").setValue ("user");
-
-                                    } else {
-                                        Toast.makeText(MainActivity.this, R.string.newEmail, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-        }
-    }
 
     @Override
     protected void onStart() {
@@ -175,12 +218,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, R.string.Success,
+                                Toast.makeText(MainActivity.this, string.Success,
                                         Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(MainActivity.this, User.class));
 
                             } else {
-                                Toast.makeText(MainActivity.this, R.string.Failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, string.Failed, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -196,6 +239,97 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.child("email ID").setValue(email);
         mDatabase.child("as").setValue("admin");
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQ_ONE_TAP){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if(result.isSuccess()){
+                GoogleSignInAccount account = result.getSignInAccount();
+                idToken = account.getIdToken();
+                name = account.getDisplayName();
+                email = account.getEmail();
+                // you can store user data to SharedPreference
+                AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+                firebaseAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                                if(task.isSuccessful()){
+                                    Toast.makeText(MainActivity.this,
+                                            "Login successful", Toast.LENGTH_SHORT).show();
+                                    gotoProfile();
+                                }else{
+                                    Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
+                                    task.getException().printStackTrace();
+                                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+            }else{
+                // Google Sign In failed, update UI appropriately
+                Log.e(TAG, "Login Unsuccessful. "+result);
+                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void gotoProfile(){
+        Intent intent = new Intent(MainActivity.this, User.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+    private void twitterSignin(){
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
+        // Target specific email with login hint.
+        provider.addCustomParameter("lang",currentLanguage);
+        Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
+        if (pendingResultTask != null) {
+            // There's something already here! Finish the sign-in for your user.
+            pendingResultTask
+                    .addOnSuccessListener(
+                            new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    startActivity(new Intent(MainActivity.this,User.class));
+                                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this,"This is if " +e.toString() , Toast.LENGTH_LONG).show();
+                                }
+                            });
+        } else {
+            firebaseAuth
+                    .startActivityForSignInWithProvider(MainActivity.this, provider.build())
+                    .addOnSuccessListener(
+                            new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    startActivity(new Intent(MainActivity.this,User.class));
+                                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                     Toast.makeText(MainActivity.this, "This is else "+e.toString(), Toast.LENGTH_LONG).show();
+                 }
+            });
+        }
     }
 }
 

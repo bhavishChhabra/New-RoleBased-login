@@ -3,6 +3,7 @@ package com.example.rolebasedlogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ TextView textView;
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
+                startActivity(new Intent(Admins.this,MainActivity.class));
                 finish ();
             }
         });

@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Role Based </string>
+    <string name="app_name">App</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
+    <string name="welcome" translatable="false">Welcome to the app!!</string>
+    <string name="web_client_id" translatable="false">619883460977-1ai4496ae8q2iq91euv716bhd9mpff9m.apps.googleusercontent.com</string>
     <string name="Login">Login</string>
     <string name="Username">Username</string>
     <string name="Rememberme">Remember Me</string>
