@@ -5,32 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".User"
+    tools:context=".MainActivity3"
     android:background="@color/teal_200"
     >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/image1"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="10dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <ListView
-            android:id="@+id/lv1"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_gravity="center"
-            />
+            android:dividerHeight="10dp"
+            android:divider="@color/white"
+            android:id="@+id/lv3"/>
 
     </androidx.cardview.widget.CardView>
 

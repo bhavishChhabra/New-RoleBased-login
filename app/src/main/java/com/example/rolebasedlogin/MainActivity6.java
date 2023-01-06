@@ -3,7 +3,6 @@ package com.example.rolebasedlogin;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,14 +11,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,29 +31,37 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity6 extends AppCompatActivity {
 
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
     RecyclerView recyclerView;
+
     ArrayList<String> arr1 = new ArrayList<>();
-    ArrayList<String> chkpid = new ArrayList<>();
-//    Toolbar toolbar;
+
+    ArrayList<String> s = new ArrayList<>();
+    ArrayList<String> d = new ArrayList<>();
+    ArrayList<String> v = new ArrayList<>();
+    ArrayList<String> t = new ArrayList<>();
+    ArrayList<String> m  = new ArrayList<>();
+    ArrayList<String> e = new ArrayList<>();
+    ArrayList<String> c = new ArrayList<>();
+    ArrayList<String> si = new ArrayList<>();
+    ArrayList<String> sc = new ArrayList<>();
+    ArrayList<String> la = new ArrayList<>();
+    ArrayList<String> ac = new ArrayList<>();
+    ArrayList<String> in = new ArrayList<>();
+    ArrayList<String> lo = new ArrayList<>();
+    ArrayList<String> ingeo = new ArrayList<>();
+    ArrayList<String> action = new ArrayList<>();
+    ArrayList<String> an = new ArrayList<>();
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         textView = findViewById(R.id.tv1);
-//        toolbar = findViewById(R.id.appBar);
-//        setSupportActionBar(toolbar);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
@@ -75,19 +78,18 @@ public class MainActivity2 extends AppCompatActivity {
                 ArrayList<String> size = new ArrayList<>();
                 ArrayList<String> editable = new ArrayList<>();
 
-                for (int c = 0; c < arr1.size(); c++) {
-                    for (int d = 0; d < response.length(); d++) {
+                for (int c=0;c<arr1.size();c++){
+                    for (int d=0;d<response.length();d++){
                         try {
                             JSONObject jsonObject = response.getJSONObject(d);
                             String chkpid = jsonObject.getString("chkpId");
-                            if (chkpid.equals(arr1.get(c))) {
+                            if (chkpid.equals(arr1.get(c))){
 //                                Toast.makeText(MainActivity4.this, "chkpid: "+chkpid, Toast.LENGTH_SHORT).show();
                                 String des = jsonObject.getString("description");
                                 String tid = jsonObject.getString("typeId");
                                 String val = jsonObject.getString("value");
-                                String siz = jsonObject.getString("size");
+                                String siz = jsonObject.getString("value");
                                 String edi = jsonObject.getString("editable");
-
                                 String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
                                 descri.add(des);
@@ -101,38 +103,54 @@ public class MainActivity2 extends AppCompatActivity {
                         }
                     }
                 }
-                Toast.makeText(MainActivity2.this, "size: " + size, Toast.LENGTH_SHORT).show();
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable);
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity6.this));
+                MainAdapter mainAdapter = new MainAdapter(MainActivity6.this,chkpidarr,descri,typeid,value,size,editable);
                 recyclerView.setAdapter(mainAdapter);
 
+//                ArrayList<String> descri = new ArrayList<>();
+//                ArrayList<String> typeid = new ArrayList<>();
+//
+////                checkpoint_model chm = new checkpoint_model(MainActivity.this);
+////                Toast.makeText(MainActivity.this, ""+response.length(), Toast.LENGTH_SHORT).show();
+//
+//
+//
+//                try {
+//                    for (int i = 0;i<response.length();i++){
+//                        JSONObject jsonObject = response.getJSONObject(i);
+//                        String chkpid = jsonObject.getString("chkpId");
+//                        for (int j=0;j<arr1.size();j++){
+//                            if (chkpid.equals(arr1.get(j))){
+//                                String des = jsonObject.getString("description");
+//                                String tid = jsonObject.getString("typeId");
+//                                descri.add(des);
+//                                typeid.add(tid);
+//                                Toast.makeText(MainActivity6.this, "des: "+des, Toast.LENGTH_SHORT).show();
+////                                Toast.makeText(MainActivity2.this, "des: "+des, Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    }
+//
+//                    Toast.makeText(MainActivity6.this, "des: "+descri, Toast.LENGTH_SHORT).show();
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity6.this));
+//                    MainAdapter mainAdapter = new MainAdapter(MainActivity6.this,arr1,descri,typeid);
+//                    recyclerView.setAdapter(mainAdapter);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity2.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity6.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
+
         requestQueue.add(jar);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.home, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                startActivity(new Intent(MainActivity2.this, User.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-}
 //        AndroidNetworking.initialize(this);
 //        AndroidNetworking.get("http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10")
 //                .setPriority(Priority.HIGH)
@@ -197,3 +215,24 @@ public class MainActivity2 extends AppCompatActivity {
 //                    }
 //                });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.home,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+//                Toast.makeText(this, "Signing Out", Toast.LENGTH_SHORT).show();
+//                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity6.this,User.class));
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

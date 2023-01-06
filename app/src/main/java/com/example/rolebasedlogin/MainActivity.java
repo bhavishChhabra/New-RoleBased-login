@@ -1,16 +1,15 @@
 package com.example.rolebasedlogin;
 
 import static android.content.ContentValues.TAG;
-import static android.graphics.Color.RED;
 
 import static com.example.rolebasedlogin.R.*;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -22,7 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Switch;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,17 +44,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     EditText uname, pass, conPass, emailsignup;
-
+    public ProgressDialog dialog;
     Button l;
     ImageButton fb,google,number;
     TextView  c,s;
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String as = "as";
     private GoogleApiClient googleApiClient;
     String idToken,name,email;
-
+    ImageView imageView;
     private static final int REQ_ONE_TAP = 1 ;  // Can be any integer unique to the Activity.
     private boolean showOneTapUI = true;
     @SuppressLint("MissingInflatedId")
@@ -79,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
-        //MainActivity2
+        //SignUp
+        getSupportActionBar().hide();
         uname = findViewById(R.id.name);
         pass = findViewById(R.id.password);
         conPass = findViewById(R.id.confirmPassword);
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (MainActivity.this,MainActivity2.class);
+                Intent intent = new Intent (MainActivity.this, SignUp.class);
 //                intent.putExtra("email",emailID);
                 startActivity(intent);
 
@@ -200,10 +198,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     @Override
-    protected void onStart() {
+    protected void onStart(){
         super.onStart();
         FirebaseUser current = firebaseAuth.getCurrentUser();
         if(current!=null){
+            ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+            dialog.show();
             startActivity(new Intent(MainActivity.this, User.class));
 
         }
@@ -260,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 if(task.isSuccessful()){
                                     Toast.makeText(MainActivity.this,
                                             "Login successful", Toast.LENGTH_SHORT).show();
+//                                    setContentView(layout.activity_user);
                                     gotoProfile();
                                 }else{
                                     Log.w(TAG, "signInWithCredential" + task.getException().getMessage());

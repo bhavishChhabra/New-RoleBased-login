@@ -3,7 +3,6 @@ package com.example.rolebasedlogin;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,14 +11,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,29 +31,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity4 extends AppCompatActivity {
 
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
     RecyclerView recyclerView;
+
     ArrayList<String> arr1 = new ArrayList<>();
-    ArrayList<String> chkpid = new ArrayList<>();
-//    Toolbar toolbar;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         textView = findViewById(R.id.tv1);
-//        toolbar = findViewById(R.id.appBar);
-//        setSupportActionBar(toolbar);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
@@ -101,38 +87,39 @@ public class MainActivity2 extends AppCompatActivity {
                         }
                     }
                 }
-                Toast.makeText(MainActivity2.this, "size: " + size, Toast.LENGTH_SHORT).show();
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable);
+                Toast.makeText(MainActivity4.this, "size: " + size, Toast.LENGTH_SHORT).show();
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity4.this));
+                MainAdapter mainAdapter = new MainAdapter(MainActivity4.this, chkpidarr, descri, typeid, value, size, editable);
                 recyclerView.setAdapter(mainAdapter);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity2.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity4.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
+
         requestQueue.add(jar);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.home, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                startActivity(new Intent(MainActivity2.this, User.class));
-                break;
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.home, menu);
+            return super.onCreateOptionsMenu(menu);
         }
-        return super.onOptionsItemSelected(item);
+
+        @Override
+        public boolean onOptionsItemSelected (@NonNull MenuItem item){
+            switch (item.getItemId()) {
+                case R.id.menu:
+                case R.id.home:
+                    startActivity(new Intent(MainActivity4.this, User.class));
+                    break;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
-}
 //        AndroidNetworking.initialize(this);
 //        AndroidNetworking.get("http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10")
 //                .setPriority(Priority.HIGH)
@@ -196,4 +183,3 @@ public class MainActivity2 extends AppCompatActivity {
 //
 //                    }
 //                });
-

@@ -38,7 +38,7 @@ String OTP = "";
 Button send,submit;
 Dialog dialog;
 int randomNumber;
-final static String apiKey = "apikey=" + "NDE1MDc2MzQ0ZTQ5NDk1NTQ3NmM1YTczNmY1NzMwNjM=";
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

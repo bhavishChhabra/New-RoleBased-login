@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="toolbar" parent="TextAppearance.MaterialComponents.Button">
+
+        <item name="android:textSize">16dp</item>
+    </style>
+    <style name="android.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="backgroundColor">@color/white</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="background">@drawable/ic_baseline_arrow_back_24</item>
+        <item name="titleTextAppearance">@style/toolbar</item>
+    </style>
+</resources>
