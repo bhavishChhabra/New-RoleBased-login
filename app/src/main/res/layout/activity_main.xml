@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="47dp"
+                android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/nebula"
                 android:text="@string/Login"
                 android:textColor="@color/white"
@@ -215,7 +215,6 @@
                 android:textColor="@color/nebula"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login"
                 app:layout_constraintVertical_bias="0.398" />

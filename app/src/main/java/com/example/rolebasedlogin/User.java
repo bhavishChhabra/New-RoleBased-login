@@ -34,7 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class User extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
-
     VideoView videoView;
     ListView listView;
     CardView cardView;
