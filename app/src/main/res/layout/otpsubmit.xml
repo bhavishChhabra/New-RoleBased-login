@@ -4,12 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter OTP"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/nebula"
+        android:layout_gravity="center_horizontal"
+        />
     <EditText
         android:id="@+id/edittext2"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:hint="Enter OTP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -17,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:backgroundTint="@color/nebula"
         android:text="Submit"
         android:layout_gravity="center_horizontal"
         android:id="@+id/submit"/>

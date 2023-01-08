@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/teal_200"
+    android:background="@drawable/gradients"
     tools:context=".MainActivity2">
 <!--<com.google.android.material.appbar.AppBarLayout-->
 <!--    android:layout_width="match_parent"-->
@@ -24,16 +24,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Dynamic Form"
+        android:textSize="50dp"
+        android:textAlignment="center"
+        android:textColor="@color/nebula"
+        android:textStyle="bold"
         android:id="@+id/tv1"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp"
         android:elevation="100dp"
         android:background="@drawable/gradients"
         app:cardCornerRadius="20dp">

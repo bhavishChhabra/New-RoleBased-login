@@ -46,8 +46,8 @@ public class User extends AppCompatActivity {
         setContentView (R.layout.activity_user);
 //        lout = findViewById (R.id.logout);
         listView = findViewById(R.id.lv1);
-        cardView = findViewById(R.id.cv1);
-        imageView = findViewById(R.id.image1);
+
+//        imageView = findViewById(R.id.image1);
         android_networking_connection conn = new android_networking_connection(this);
         conn.callApi1(listView);
 //        conn.setImage(imageView);
