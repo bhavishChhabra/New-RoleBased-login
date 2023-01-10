@@ -45,7 +45,7 @@ public class MainActivity5 extends AppCompatActivity {
                 String icon = jsonObject.getString("Icon");
                 caption2.add(caption);
                 icon2.add(icon);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.textviewlayout,R.id.tv1,caption2);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.textviewlayout,R.id.description,caption2);
                 listView.setAdapter(arrayAdapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

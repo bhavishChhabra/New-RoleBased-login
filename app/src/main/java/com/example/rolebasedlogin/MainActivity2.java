@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
+    private Database database;
     RecyclerView recyclerView;
     ArrayList<String> arr1 = new ArrayList<>();
     ArrayList<String> chkpid = new ArrayList<>();
@@ -50,6 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         textView = findViewById(R.id.tv1);
+//        database = new Database (context,null,null,1);
 //        toolbar = findViewById(R.id.appBar);
 //        setSupportActionBar(toolbar);
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -63,7 +66,7 @@ public class MainActivity2 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("chkpid1");
-
+        database=new Database(MainActivity2.this,null,null,1);
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -87,14 +90,16 @@ public class MainActivity2 extends AppCompatActivity {
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-
-                                String[] valarr = val.split(",");
+//                                database.insertData(chkpid,des,tid,siz,edi);
                                 chkpidarr.add(chkpid);
+                                String[] valar = val.split(",");
+                                typeid.add(tid);
+                                value.add(valar);
                                 descri.add(des);
                                 typeid.add(tid);
-                                value.add(valarr);
                                 size.add(siz);
                                 editable.add(edi);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -103,7 +108,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 Toast.makeText(MainActivity2.this, "size: " + size, Toast.LENGTH_SHORT).show();
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable);
+                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this,chkpidarr,descri,typeid,value,size,editable);
                 recyclerView.setAdapter(mainAdapter);
 
             }

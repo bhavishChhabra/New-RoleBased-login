@@ -23,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -32,6 +33,7 @@ import com.github.gcacace.signaturepad.views.SignaturePad;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -269,6 +271,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                            try {
+                                Scanner_Activity scanner_activity = new Scanner_Activity(context);
+//                                scanner_activity.New();
+                                scanner_activity.scanCode();
+                            } catch (Exception e) {
+                                Toast.makeText(context, "Error "+e.toString(), Toast.LENGTH_LONG).show();
+                            }
 
                         } else {
                             ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA}, 100);

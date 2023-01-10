@@ -36,7 +36,7 @@ public class MainActivity4 extends AppCompatActivity {
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
     RecyclerView recyclerView;
-
+    Database database;
     ArrayList<String> arr1 = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -49,6 +49,7 @@ public class MainActivity4 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("chkpid1");
+//        database=new Database(MainActivity4.this,null,null,1);
 
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -73,7 +74,7 @@ public class MainActivity4 extends AppCompatActivity {
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-
+//                                database.insertData(chkpid,des,tid,siz,edi);
                                 String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
                                 descri.add(des);

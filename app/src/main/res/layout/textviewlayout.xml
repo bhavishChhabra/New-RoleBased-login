@@ -21,7 +21,7 @@
         android:textColor="@color/nebula"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:id="@+id/tv1"
+        android:id="@+id/description"
         tools:ignore="RtlCompat" />
     <ImageView
         android:layout_width="40dp"
@@ -29,6 +29,12 @@
         android:layout_gravity="end"
         android:src="@drawable/ic_baseline_arrow_right_24"
         />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:id="@+id/image"
+        />
+
 </androidx.cardview.widget.CardView>
 
 

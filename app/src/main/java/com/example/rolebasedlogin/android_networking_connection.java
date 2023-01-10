@@ -24,16 +24,16 @@ import java.util.ArrayList;
 
 public class android_networking_connection {
     Context context;
-    private Database database;
     SQLiteDatabase db;
+    Database database;
     ArrayList<String> caption1 = new ArrayList<>();
     ArrayList<String> icon1 = new ArrayList<>();
-    public android_networking_connection(Context context) {
+    public android_networking_connection(Context context)  {
         this.context = context;
     }
     public void callApi1(ListView listView){
-        database = new Database (context,null,null,1);
         AndroidNetworking.initialize(context);
+        database= new Database(context,null,null,1);
         AndroidNetworking.get("http://www.trinityapplab.in/DemoOneNetwork/checklist.php?&empId=9716744965&roleId=10")
                 .setPriority(Priority.HIGH).build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -47,11 +47,11 @@ public class android_networking_connection {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 String avatar = obj.getString("Icon");
                                 String str1 = obj.getString("Caption");
-                                database.addCaption (str1);
+                                database.setCaption(str1);
 //                                caption1 = database.fetchData ();
                                 caption1.add(str1);
                                 icon1.add(avatar);
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,R.layout.textviewlayout,R.id.tv1,caption1);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,R.layout.textviewlayout,R.id.description,caption1);
                                 listView.setAdapter(arrayAdapter);
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override

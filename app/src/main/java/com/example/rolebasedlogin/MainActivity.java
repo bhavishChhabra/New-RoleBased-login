@@ -46,14 +46,17 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.shantanudeshmukh.linkedinsdk.LinkedInBuilder;
+import com.shantanudeshmukh.linkedinsdk.helpers.LinkedInUser;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    private static final int LINKEDIN_REQUEST_CODE = 2;
     EditText uname, pass, conPass, emailsignup;
     public ProgressDialog dialog;
     Button l;
-    ImageButton fb,google,number;
+    ImageButton fb,google,number,linkedIn;
     TextView  c,s;
     EditText u, e, p;
     private FirebaseAuth firebaseAuth;
@@ -89,10 +92,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         e = findViewById(id.email);
         p = findViewById(id.pass);
         fb = findViewById(id.fb);
+        linkedIn=findViewById(id.linkedin);
         number = findViewById(id.number);
         google = findViewById(id.google);
         admin(uID, username, emailID, password, as);
         firebaseAuth = FirebaseAuth.getInstance();
+        linkedIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linkedIn();
+            }
+        });
         s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,6 +253,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LINKEDIN_REQUEST_CODE && data != null) {
+            if (resultCode == RESULT_OK) {
+                //Successfully signed in
+                LinkedInUser user = data.getParcelableExtra("social_login");
+                    startActivity(new Intent(MainActivity.this,User.class));
+                Toast.makeText(MainActivity.this,
+                        "Login successful", Toast.LENGTH_SHORT).show();
+                //acessing user info
+                Log.i("LinkedInLogin", user.getFirstName());
+
+            } else {
+
+                if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_USER_DENIED) {
+                    //Handle : user denied access to account
+
+
+                } else if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_FAILED) {
+                    Toast.makeText(MainActivity.this, "Authentication failed."+ data.getStringExtra("err_message"),
+                            Toast.LENGTH_LONG).show();
+                    //Handle : Error in API : see logcat output for details
+                    Log.e("LINKEDIN ERROR", data.getStringExtra("err_message"));
+                }
+            }
+        }
         if(requestCode==REQ_ONE_TAP){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if(result.isSuccess()){
@@ -331,6 +365,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                  }
             });
         }
+    }
+    private void linkedIn(){
+        LinkedInBuilder.getInstance(MainActivity.this)
+                .setClientID("77xj7ufqm37mn3")
+                .setClientSecret("cSq6C4fyD4Z5gePS")
+                .setRedirectURI("https://www.linkedin.com/developers/tools/oauth/redirect")
+                .authenticate(LINKEDIN_REQUEST_CODE);
     }
 }
 
