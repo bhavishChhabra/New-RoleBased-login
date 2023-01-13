@@ -81,25 +81,16 @@ public class Database extends SQLiteOpenHelper {
     public void insertData(String checkpt,String description,String typeId,String size,String editable){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // on below line we are creating a
-        // variable for content values.
         ContentValues values = new ContentValues();
 
-        // on below line we are passing all values
-        // along with its key and value pair.
         values.put(CHECHPOINT_ID, checkpt);
         values.put(DESCRIPTION, description);
         values.put(TYPE_ID, typeId);
         values.put(SIZE, size);
         values.put(EDITABLE, editable);
 
-
-        // after adding all values we are passing
-        // content values to our table.
         db.insert(TABLE_NAME, null, values);
 
-        // at last we are closing our
-        // database after adding database.
         db.close();
     }
     public ArrayList fetchData(int i)

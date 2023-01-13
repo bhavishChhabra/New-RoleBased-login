@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    >
+    android:gravity="center_horizontal">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,8 +27,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/nebula"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/gray"
         android:text="Submit"
         android:layout_gravity="center_horizontal"
         android:id="@+id/submit"/>
+
+<!--    <com.chaos.view.PinView-->
+<!--        android:id="@+id/pin_view"-->
+<!--        style="@style/PinWidget.PinView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:cursorVisible="true"-->
+<!--        android:inputType="number"-->
+<!--        android:itemBackground="#65EAEAEA"-->
+<!--        app:cursorColor="@color/black"-->
+<!--        app:hideLineWhenFilled="true"-->
+<!--        app:itemCount="4"-->
+<!--        app:itemHeight="50dp"-->
+<!--        app:itemRadius="5dp"-->
+<!--        app:itemWidth="50dp"-->
+<!--        app:lineWidth="1dp" />-->
+
 </LinearLayout>

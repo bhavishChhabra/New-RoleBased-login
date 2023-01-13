@@ -22,12 +22,19 @@
             android:textStyle="bold"
             android:textColor="@color/nebula"
             android:id="@+id/tv_name"/>
-
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/radip_grid"
+            android:columnCount="2">
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radiogroup"/>
+            android:orientation="horizontal"
+            android:id="@+id/radiogroup">
+        </RadioGroup>
 
+        </GridLayout>
 
         <!--        <androidx.cardview.widget.CardView-->
         <!--            android:id="@+id/cv"-->

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradients"
+    android:background="@color/gray"
     tools:context=".otp">
 
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="156dp"
-        android:src="@mipmap/trinity_logo"
+        android:layout_width="222dp"
+        android:layout_height="162dp"
+        android:background="@mipmap/trinity_logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="150dp"
         android:background="@drawable/card"
-
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         app:cardCornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +69,8 @@
                 android:id="@+id/otpbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/nebula"
+                android:textColor="@color/nebula"
+                android:backgroundTint="@color/gray"
                 android:layout_gravity="center_horizontal"
                 android:text="Send OTP" />
         </LinearLayout>

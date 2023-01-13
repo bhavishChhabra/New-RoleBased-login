@@ -53,6 +53,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final int LINKEDIN_REQUEST_CODE = 2;
+    long backPressedTime = 0;
     EditText uname, pass, conPass, emailsignup;
     public ProgressDialog dialog;
     Button l;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
         //SignUp
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         uname = findViewById(R.id.name);
         pass = findViewById(R.id.password);
         conPass = findViewById(R.id.confirmPassword);
@@ -154,17 +155,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
                 }else{
                     login();
-
                 }
             }
         });
-
     }
 
     private void signWithGoogle() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,REQ_ONE_TAP);
-
     }
 
     public void ChangeLang() {
@@ -184,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 }
             }
         });
-
         mBuilder.create();
         mBuilder.show();
     }
@@ -205,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Toast.makeText(MainActivity.this, string.already, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     protected void onStart(){
@@ -250,10 +246,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mDatabase.child("as").setValue("admin");
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LINKEDIN_REQUEST_CODE && data != null) {
+        if (requestCode == 100 && data != null) {
             if (resultCode == RESULT_OK) {
                 //Successfully signed in
                 LinkedInUser user = data.getParcelableExtra("social_login");
@@ -270,8 +267,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
                 } else if (data.getIntExtra("err_code", 0) == LinkedInBuilder.ERROR_FAILED) {
-                    Toast.makeText(MainActivity.this, "Authentication failed."+ data.getStringExtra("err_message"),
-                            Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(MainActivity.this,User.class));
+                    Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
                     //Handle : Error in API : see logcat output for details
                     Log.e("LINKEDIN ERROR", data.getStringExtra("err_message"));
                 }
@@ -368,12 +365,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     private void linkedIn(){
         LinkedInBuilder.getInstance(MainActivity.this)
-                .setClientID("77xj7ufqm37mn3")
-                .setClientSecret("cSq6C4fyD4Z5gePS")
+                .setClientID("77zni0daax16xm")
+                .setClientSecret("JP6ywAKzf9x8S1xp")
                 .setRedirectURI("https://www.linkedin.com/developers/tools/oauth/redirect")
-                .authenticate(LINKEDIN_REQUEST_CODE);
+                .authenticate(100);
+    }
+    @Override
+    public void onBackPressed() {
+        if ( backPressedTime+ 3000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finish();
+        } else {
+            Toast.makeText(this, "Press back again to leave the app.", Toast.LENGTH_LONG).show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }
+
 
 
 

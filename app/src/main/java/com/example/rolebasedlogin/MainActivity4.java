@@ -36,7 +36,7 @@ public class MainActivity4 extends AppCompatActivity {
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
     RecyclerView recyclerView;
-    Database database;
+
     ArrayList<String> arr1 = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -49,7 +49,6 @@ public class MainActivity4 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("chkpid1");
-//        database=new Database(MainActivity4.this,null,null,1);
 
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -62,19 +61,19 @@ public class MainActivity4 extends AppCompatActivity {
                 ArrayList<String> size = new ArrayList<>();
                 ArrayList<String> editable = new ArrayList<>();
 
-                for (int c = 0; c < arr1.size(); c++) {
-                    for (int d = 0; d < response.length(); d++) {
+                for (int c=0;c<arr1.size();c++){
+                    for (int d=0;d<response.length();d++){
                         try {
                             JSONObject jsonObject = response.getJSONObject(d);
                             String chkpid = jsonObject.getString("chkpId");
-                            if (chkpid.equals(arr1.get(c))) {
+                            if (chkpid.equals(arr1.get(c))){
 //                                Toast.makeText(MainActivity4.this, "chkpid: "+chkpid, Toast.LENGTH_SHORT).show();
                                 String des = jsonObject.getString("description");
                                 String tid = jsonObject.getString("typeId");
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-//                                database.insertData(chkpid,des,tid,siz,edi);
+
                                 String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
                                 descri.add(des);
@@ -88,9 +87,8 @@ public class MainActivity4 extends AppCompatActivity {
                         }
                     }
                 }
-                Toast.makeText(MainActivity4.this, "size: " + size, Toast.LENGTH_SHORT).show();
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity4.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity4.this, chkpidarr, descri, typeid, value, size, editable);
+                MainAdapter mainAdapter = new MainAdapter(MainActivity4.this,chkpidarr,descri,typeid,value,size,editable);
                 recyclerView.setAdapter(mainAdapter);
 
             }
@@ -102,6 +100,7 @@ public class MainActivity4 extends AppCompatActivity {
         });
 
         requestQueue.add(jar);
+
     }
         @Override
         public boolean onCreateOptionsMenu (Menu menu){

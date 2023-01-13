@@ -2,7 +2,6 @@ package com.example.rolebasedlogin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,45 +14,42 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 import android.widget.VideoView;
-import android.os.AsyncTask;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.IOException;
+
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class User extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     VideoView videoView;
+    private static final long delay = 2000L;
+    private boolean mRecentlyBackPressed = false;
+    private Handler mExitHandler = new Handler();
     ListView listView;
     CardView cardView;
+    TextView textView;
+    long backPressedTime = 0;
     ImageView imageView;
+    Toolbar toolbar1;
     ArrayList<String> caption1 = new ArrayList<>();
     ArrayList<String> icon1 = new ArrayList<>();
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
-    private CustomAdapter adapter;
+    private CustomAdapter0 adapter;
     private List<MyData> data_list;
     public static final String PACKAGE = "com.example.rolebasedlogin";
     @SuppressLint("MissingInflatedId")
@@ -61,13 +57,15 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_user);
+//        setSupportActionBar(findViewById(R.id.toolbar1));
 //        lout = findViewById (R.id.logout);
         listView = findViewById(R.id.lv1);
-        imageView = findViewById(R.id.logo);
+        textView= findViewById(R.id.text);
+//        imageView = findViewById(R.id.logo);
 //        computePakageHash();
 
         android_networking_connection conn = new android_networking_connection(User.this);
-        conn.callApi1(listView);
+        conn.callApi1(listView,textView);
 
 //        recyclerView = (RecyclerView) findViewById(R.id.lv1);
 //        data_list  = new ArrayList<>();
@@ -158,5 +156,12 @@ public class User extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("TAG HASH KEY",e.getMessage());
         }
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+//        android.os.Process.killProcess(android.os.Process.myPid());
+        // This above line close correctly
     }
 }

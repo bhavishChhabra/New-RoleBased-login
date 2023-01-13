@@ -8,18 +8,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Camera"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/nebula"
-            android:id="@+id/tv_name"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/nebula"
+                android:id="@+id/tv_name"/>
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

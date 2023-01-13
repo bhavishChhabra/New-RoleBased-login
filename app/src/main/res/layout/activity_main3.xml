@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity3"
-    android:background="@drawable/gradients"
+    android:background="@color/gray"
     >
 
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="156dp"
+        android:layout_width="222dp"
+        android:layout_height="162dp"
+        android:background="@mipmap/trinity_logo"
         android:layout_marginTop="4dp"
-        android:src="@mipmap/trinity_logo"
         app:layout_constraintBottom_toTopOf="@+id/lv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -26,6 +26,9 @@
         android:layout_height="match_parent"
         android:background="@drawable/card"
         android:layout_marginTop="150dp"
+        android:divider="@color/white"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

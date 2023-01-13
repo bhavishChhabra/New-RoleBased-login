@@ -10,4 +10,8 @@
         <item name="background">@drawable/ic_baseline_arrow_back_24</item>
         <item name="titleTextAppearance">@style/toolbar</item>
     </style>
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

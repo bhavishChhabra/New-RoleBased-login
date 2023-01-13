@@ -17,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -63,8 +65,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public ArrayList<String> getCheckpointid() {
         return checkpointid;
     }
-
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -90,10 +91,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (size.get(viewType).equals("0")) {
                 LinearLayout linearLayout = view.findViewById(R.id.lout);
+                GridLayout gridLayout = view.findViewById(R.id.checkbox_grid);
                 for (int i = 0; i < v.length; i++) {
                     CheckBox checkBox = new CheckBox(context);
                     checkBox.setText(v[i]);
-                    linearLayout.addView(checkBox);
+                    gridLayout.addView(checkBox);
                     if (editable.get(viewType).equals("0")) {
                         checkBox.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -106,6 +108,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new viewHolder(view);
             } else {
                 for (int j = 0; j < v.length; j++) {
+                    GridLayout gridLayout = view1.findViewById(R.id.radip_grid);
                     RadioButton radioButton = new RadioButton(context);
                     radioButton.setText(v[j]);
                     radioGroup.addView(radioButton);
@@ -212,9 +215,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         TextView t = holder.itemView.findViewById(R.id.tv_name);
-        t.setText(description.get(position));
+//        Toast.makeText(context, "position"+String.valueOf(position+1), Toast.LENGTH_LONG).show();
+        t.setText(String.valueOf(position+1)+". "+description.get(position));
         TextView e = holder.itemView.findViewById(R.id.datetv1);
-
+        t.setTextSize(20);
 //        if (checkpointid.get(position).equals("19")){
 //
 //        }
@@ -254,10 +258,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH);
                     int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    e.setText(day+ "/"+month+1+ "/"+year);
                     DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                            e.setText(d + "/" + m + "/" + y);
+
+                            e.setText(d + "/" + m+1 + "/" + y);
                         }
                     }, year, month, day);
                     datePickerDialog.show();
@@ -265,7 +271,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         } else if (typeId.get(position).equals("15")) {
 
-            Button btn = holder.itemView.findViewById(R.id.scan);
+            ImageButton btn = holder.itemView.findViewById(R.id.scan);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

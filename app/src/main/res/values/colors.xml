@@ -8,9 +8,10 @@
     <color name="teal_200">#8501FF7C</color>
     <color name="teal_700">#FF018786</color>
     <color name="green">#46e0a9 </color>
+    <color name="lightgreen">#46e0a9 </color>
     <color name="black">#FF000000</color>
     <color name="nebula2">#0C1B67</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray">#63DEFFDE</color>
+    <color name="gray">#BAF4B0</color>
     <color name="gradient">@color/material_dynamic_tertiary60</color>
 </resources>

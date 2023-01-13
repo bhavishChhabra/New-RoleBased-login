@@ -1,21 +1,16 @@
 package com.example.rolebasedlogin;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,22 +19,19 @@ import java.util.ArrayList;
 
 public class android_networking_connection {
     Context context;
-    SQLiteDatabase db;
-    Database database;
     ArrayList<String> caption1 = new ArrayList<>();
     ArrayList<String> icon1 = new ArrayList<>();
-    public android_networking_connection(Context context)  {
+    public android_networking_connection(Context context) {
         this.context = context;
     }
-    public void callApi1(ListView listView){
+
+    public void callApi1(ListView listView, TextView textView){
         AndroidNetworking.initialize(context);
-        database= new Database(context,null,null,1);
         AndroidNetworking.get("http://www.trinityapplab.in/DemoOneNetwork/checklist.php?&empId=9716744965&roleId=10")
                 .setPriority(Priority.HIGH).build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-
 
                         try {
                             JSONArray jsonArray = response.getJSONArray("menu");
@@ -47,54 +39,24 @@ public class android_networking_connection {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 String avatar = obj.getString("Icon");
                                 String str1 = obj.getString("Caption");
-                                database.setCaption(str1);
-//                                caption1 = database.fetchData ();
-                                caption1.add(str1);
+                                caption1.add(StringUtils.capitalize(str1));
                                 icon1.add(avatar);
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,R.layout.textviewlayout,R.id.description,caption1);
-                                listView.setAdapter(arrayAdapter);
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                        try {
-                                            ArrayList<String> act2 = new ArrayList<>();
-                                            ArrayList<String> act3 = new ArrayList<>();
-                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                            JSONArray ja = jsonObject.getJSONArray("subCategoryList");
-                                            if (ja.length()==0) {
-                                                String chkpid = jsonObject.getString("checkpointId");
-                                                String[] strarr = chkpid.split(",");
-                                                for (int k=0;k<strarr.length;k++){
-                                                    act2.add(strarr[k]);
-                                                }
-                                                Intent intent = new Intent(context,MainActivity2.class);
-                                                intent.putStringArrayListExtra("chkpid1",act2);
-//                                                intent.putStringArrayListExtra("descrip",descrip);
-                                                context.startActivity(intent);
-                                            }else {
-                                                act3.add(ja.toString());
-                                                Intent intent = new Intent(context,MainActivity3.class);
-                                                intent.putStringArrayListExtra("jsonarray",act3);
-                                                context.startActivity(intent);
-
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
                             }
+                            CustomAdapter0 customAdapter = new CustomAdapter0(context,caption1,icon1);
+                            listView.setAdapter(customAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(context, "e: "+e, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-
+                        textView.setText(anError.toString());
                     }
                 });
     }
+
 //    public void setImage(ImageView imageView){
 //        Picasso.get()
 //                .load(icon1.get(1))

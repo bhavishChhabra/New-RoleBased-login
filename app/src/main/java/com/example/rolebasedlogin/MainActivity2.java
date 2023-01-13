@@ -39,34 +39,24 @@ import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
 
+
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
-    private Database database;
     RecyclerView recyclerView;
     ArrayList<String> arr1 = new ArrayList<>();
     ArrayList<String> chkpid = new ArrayList<>();
-//    Toolbar toolbar;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         textView = findViewById(R.id.tv1);
-//        database = new Database (context,null,null,1);
-//        toolbar = findViewById(R.id.appBar);
-//        setSupportActionBar(toolbar);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("chkpid1");
-        database=new Database(MainActivity2.this,null,null,1);
+
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -90,38 +80,39 @@ public class MainActivity2 extends AppCompatActivity {
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-//                                database.insertData(chkpid,des,tid,siz,edi);
+
+                                String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
-                                String[] valar = val.split(",");
-                                typeid.add(tid);
-                                value.add(valar);
                                 descri.add(des);
                                 typeid.add(tid);
+                                value.add(valarr);
                                 size.add(siz);
                                 editable.add(edi);
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(MainActivity2.this, "e: " + e, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
-                Toast.makeText(MainActivity2.this, "size: " + size, Toast.LENGTH_SHORT).show();
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this,chkpidarr,descri,typeid,value,size,editable);
+                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable);
                 recyclerView.setAdapter(mainAdapter);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity2.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, "error" + error, Toast.LENGTH_SHORT).show();
             }
         });
+
         requestQueue.add(jar);
+
     }
 
-    @Override
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.home, menu);

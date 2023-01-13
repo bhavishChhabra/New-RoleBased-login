@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@drawable/gradients"
+    android:background="@color/gray"
     tools:viewBindingIgnore="true">
 
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="156dp"
-        android:src="@mipmap/trinity_logo"
+        android:layout_width="222dp"
+        android:layout_height="162dp"
+        android:background="@mipmap/trinity_logo"
         app:layout_constraintBottom_toTopOf="@+id/cardView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardElevation="100dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
         <!--    <Switch-->
         <!--        android:id="@+id/switch1"-->
@@ -41,12 +44,12 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="278dp"
+                android:layout_height="83dp"
                 android:text="@string/welcome"
                 android:textAlignment="center"
                 android:textColor="@color/nebula"
-                android:textSize="40dp"
+                android:textSize="30dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/cardView"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,9 +145,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
-                android:backgroundTint="@color/nebula"
+                android:backgroundTint="@color/gray"
                 android:text="@string/Login"
-                android:textColor="@color/white"
+                android:textColor="@color/nebula"
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +204,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="28dp"
                 android:text="@string/Change"
-                android:textColor="@color/nebula"
+                android:textColor="#440BDF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -244,7 +247,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="@string/Signup"
-                    android:textColor="#440BDF" />
+                    android:textColor="#440BDF"
+                    />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

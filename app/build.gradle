@@ -54,4 +54,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.shantanudeshmukh:linkedinsdk:1.0.0'
     implementation 'com.github.Sumudu-Sahan:LinkedInManager:1.00.02'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.chaos.view:pinview:1.4.3'
 }

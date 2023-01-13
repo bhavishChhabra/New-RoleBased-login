@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUp"
-    android:background="@drawable/gradients"
+    android:background="@color/gray"
     >
 
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="156dp"
-        android:src="@mipmap/trinity_logo"
+        android:layout_width="222dp"
+        android:layout_height="162dp"
+        android:background="@mipmap/trinity_logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="150dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/card"
         app:cardCornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -140,9 +142,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/nebula"
+                android:backgroundTint="@color/gray"
                 android:text="@string/Signup"
-                android:textColor="@color/white"
+                android:textColor="@color/nebula"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -161,6 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:textColor="@color/nebula"
                     android:text="Already have an account?" />
 
                 <TextView
