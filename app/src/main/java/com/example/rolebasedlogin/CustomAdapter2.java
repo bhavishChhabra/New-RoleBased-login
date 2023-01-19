@@ -104,6 +104,8 @@ public class CustomAdapter2 implements ListAdapter {
 
             TextView tittle = convertView.findViewById(R.id.description);
             ImageView imag = convertView.findViewById(R.id.imageR);
+            TextView textView = convertView.findViewById(R.id.page_level);
+            textView.setText("2");
             tittle.setText(caption.get(position));
             Picasso.get().load(icon.get(position)).into(imag);
 

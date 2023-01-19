@@ -31,7 +31,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // Night mode is not active on device
                 // For WHITE status bar Icons color to dark
                 getWindow().setStatusBarColor(ContextCompat.getColor(SplashScreenActivity.this,R.color.white));
-
                 break;
             case Configuration.UI_MODE_NIGHT_YES:
                 // Night mode is active on device
@@ -61,7 +60,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // our current activity.
                 finish();
             }
-        }, 2000);
+        }, 1000);
 
 
     }

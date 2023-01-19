@@ -1,6 +1,6 @@
 package com.example.rolebasedlogin;
 
-public class admin {
+public class    admin {
 
     private String username,email,password;
     private String USER_TYPE ;

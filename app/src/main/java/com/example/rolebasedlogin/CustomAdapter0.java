@@ -28,6 +28,7 @@ public class CustomAdapter0 implements ListAdapter {
     ArrayList<String> caption;
     ArrayList<String> icon;
     View cview;
+    public int count;
 
     public CustomAdapter0(Context context, ArrayList<String> caption, ArrayList<String> icon){
         this.context = context;
@@ -128,6 +129,8 @@ public class CustomAdapter0 implements ListAdapter {
 
             TextView tittle = convertView.findViewById(R.id.description);
             ImageView imag = convertView.findViewById(R.id.imageR);
+            TextView textView = convertView.findViewById(R.id.page_level);
+            textView.setText("0");
             tittle.setText(caption.get(position));
             Picasso.get().load(icon.get(position)).into(imag);
         }

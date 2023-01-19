@@ -2,7 +2,10 @@ package com.example.rolebasedlogin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,12 +33,32 @@ public class MainActivity5 extends AppCompatActivity {
     ArrayList<String> arr1 = new ArrayList<>();
     ArrayList<String> caption2 = new ArrayList<>();
     ArrayList<String> icon2 = new ArrayList<>();
+    Toolbar toolbar;
+    ImageView imageView;
+    ImageButton imageButton;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main5);
-        listView = findViewById(R.id.lv5);
-
+        listView = findViewById(R.id.lv1);
+        imageButton= findViewById(R.id.signout);
+        imageView=findViewById(R.id.imageView);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity5.super.onBackPressed();
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity5.this, User.class));            }
+        });
+//        toolbar = findViewById(R.id.toolbar1);
+//        setSupportActionBar(toolbar);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("jsonarray");
         try {
@@ -61,21 +86,5 @@ public class MainActivity5 extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.home, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                startActivity(new Intent(MainActivity5.this, User.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

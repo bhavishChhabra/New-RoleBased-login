@@ -1,19 +1,19 @@
 package com.example.rolebasedlogin;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +35,8 @@ public class MainActivity4 extends AppCompatActivity {
     String url = "http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10";
     TextView textView;
     RecyclerView recyclerView;
-
+    ImageView imageView;
+    ImageButton imageButton;
     ArrayList<String> arr1 = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -49,7 +49,20 @@ public class MainActivity4 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         Intent i = getIntent();
         arr1 = i.getStringArrayListExtra("chkpid1");
-
+        imageButton= findViewById(R.id.signout);
+        imageView=findViewById(R.id.imageView);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity4.super.onBackPressed();
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity4.this, User.class));            }
+        });
         JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -60,6 +73,7 @@ public class MainActivity4 extends AppCompatActivity {
                 ArrayList<String[]> value = new ArrayList<>();
                 ArrayList<String> size = new ArrayList<>();
                 ArrayList<String> editable = new ArrayList<>();
+                ArrayList<String> score = new ArrayList<>();
 
                 for (int c=0;c<arr1.size();c++){
                     for (int d=0;d<response.length();d++){
@@ -73,7 +87,7 @@ public class MainActivity4 extends AppCompatActivity {
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-
+                                String src = jsonObject.getString("Score");
                                 String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
                                 descri.add(des);
@@ -81,6 +95,7 @@ public class MainActivity4 extends AppCompatActivity {
                                 value.add(valarr);
                                 size.add(siz);
                                 editable.add(edi);
+                                score.add(src);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -88,7 +103,7 @@ public class MainActivity4 extends AppCompatActivity {
                     }
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity4.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity4.this,chkpidarr,descri,typeid,value,size,editable);
+                MainAdapter mainAdapter = new MainAdapter(MainActivity4.this,chkpidarr,descri,typeid,value,size,editable,score);
                 recyclerView.setAdapter(mainAdapter);
 
             }
@@ -102,24 +117,7 @@ public class MainActivity4 extends AppCompatActivity {
         requestQueue.add(jar);
 
     }
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.home, menu);
-            return super.onCreateOptionsMenu(menu);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected (@NonNull MenuItem item){
-            switch (item.getItemId()) {
-                case R.id.menu:
-                case R.id.home:
-                    startActivity(new Intent(MainActivity4.this, User.class));
-                    break;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
+}
 //        AndroidNetworking.initialize(this);
 //        AndroidNetworking.get("http://www.trinityapplab.in/DemoOneNetwork/checkpoint.php?&empId=9716744965&roleId=10")
 //                .setPriority(Priority.HIGH)

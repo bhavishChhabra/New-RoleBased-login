@@ -12,10 +12,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,19 +24,23 @@
                 android:textColor="@color/nebula"
                 android:id="@+id/tv_name"/>
         </LinearLayout>
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/nebula"
             app:cardCornerRadius="10dp">
-            <LinearLayout
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/liner_cam"
-                android:orientation="horizontal" />
+                android:layout_height="30dp"
+                android:textSize="20dp"
+                android:text="CAPTION"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:id="@+id/et1"/>
 
         </androidx.cardview.widget.CardView>
 

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
         //SignUp
-//        getSupportActionBar().hide();
+        getSupportActionBar().hide();
         uname = findViewById(R.id.name);
         pass = findViewById(R.id.password);
         conPass = findViewById(R.id.confirmPassword);
@@ -365,8 +365,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     private void linkedIn(){
         LinkedInBuilder.getInstance(MainActivity.this)
-                .setClientID("77zni0daax16xm")
-                .setClientSecret("JP6ywAKzf9x8S1xp")
+                .setClientID("7744r6pjwo3xlm")
+                .setClientSecret("NHbw9jUQdrEO9xt7")
                 .setRedirectURI("https://www.linkedin.com/developers/tools/oauth/redirect")
                 .authenticate(100);
     }

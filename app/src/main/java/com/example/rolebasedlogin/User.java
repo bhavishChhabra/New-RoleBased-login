@@ -1,8 +1,10 @@
 package com.example.rolebasedlogin;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,11 +22,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.VideoView;
 
 import java.security.MessageDigest;
@@ -34,7 +38,6 @@ import java.util.List;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class User extends AppCompatActivity {
-    private FirebaseAuth firebaseAuth;
     VideoView videoView;
     private static final long delay = 2000L;
     private boolean mRecentlyBackPressed = false;
@@ -43,8 +46,8 @@ public class User extends AppCompatActivity {
     CardView cardView;
     TextView textView;
     long backPressedTime = 0;
-    ImageView imageView;
-    Toolbar toolbar1;
+    ImageButton imageButton;
+    Toolbar toolbar;
     ArrayList<String> caption1 = new ArrayList<>();
     ArrayList<String> icon1 = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -57,7 +60,22 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_user);
-//        setSupportActionBar(findViewById(R.id.toolbar1));
+        imageButton = findViewById(R.id.signout);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(User.this,MainActivity.class));
+                finish ();
+            }
+        });
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        getSupportActionBar().hide();
+//            // assigning ID of the toolbar to a variable
+//        toolbar =findViewById(R.id.toolbar1);
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
 //        lout = findViewById (R.id.logout);
         listView = findViewById(R.id.lv1);
         textView= findViewById(R.id.text);
@@ -124,39 +142,6 @@ public class User extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu:
-                Toast.makeText(this, "Signing Out", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(User.this,MainActivity.class));
-                finish ();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    private void computePakageHash() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "example.com.linkedinlogindemo",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (Exception e) {
-            Log.e("TAG HASH KEY",e.getMessage());
-        }
-    }
     @Override
     public void onBackPressed() {
         finish();

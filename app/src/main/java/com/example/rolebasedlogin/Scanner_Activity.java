@@ -52,7 +52,7 @@ public class Scanner_Activity extends AppCompatActivity {
 //        scanOptions.setOrientationLocked(true);
         scanOptions.setCaptureActivity(Capture.class);
         Toast.makeText(context, "Method Called", Toast.LENGTH_LONG).show();
-        launcher.launch(scanOptions);
+//        launcher.launch(scanOptions);
 
 
     }

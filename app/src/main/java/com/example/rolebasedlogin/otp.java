@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.renderscript.RenderScript;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,6 +40,7 @@ import java.util.Random;
 public class otp extends AppCompatActivity {
 EditText number,otp;
 String OTP = "";
+String S="";
 Button send,submit;
 Dialog dialog;
 int randomNumber;
@@ -58,6 +61,24 @@ PinView pinView;
         otp = dialog.findViewById(R.id.edittext2);
         submit = dialog.findViewById(R.id.submit);
 
+//        pinView.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                S = s.toString();
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +96,7 @@ PinView pinView;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(otp.this, "String"+S, Toast.LENGTH_SHORT).show();
                 vaildate();
             }
         });

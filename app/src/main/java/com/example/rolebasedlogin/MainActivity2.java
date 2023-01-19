@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -45,12 +47,27 @@ public class MainActivity2 extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<String> arr1 = new ArrayList<>();
     ArrayList<String> chkpid = new ArrayList<>();
-
+    ImageView imageView;
+    ImageButton imageButton;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        imageButton= findViewById(R.id.signout);
+        imageView=findViewById(R.id.imageView);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity2.super.onBackPressed();
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity2.this, User.class));            }
+        });
         textView = findViewById(R.id.tv1);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.recycler_view);
@@ -67,7 +84,7 @@ public class MainActivity2 extends AppCompatActivity {
                 ArrayList<String[]> value = new ArrayList<>();
                 ArrayList<String> size = new ArrayList<>();
                 ArrayList<String> editable = new ArrayList<>();
-
+                ArrayList<String> score = new ArrayList<>();
                 for (int c = 0; c < arr1.size(); c++) {
                     for (int d = 0; d < response.length(); d++) {
                         try {
@@ -80,7 +97,7 @@ public class MainActivity2 extends AppCompatActivity {
                                 String val = jsonObject.getString("value");
                                 String siz = jsonObject.getString("size");
                                 String edi = jsonObject.getString("editable");
-
+                                String scr = jsonObject.getString("Score");
                                 String[] valarr = val.split(",");
                                 chkpidarr.add(chkpid);
                                 descri.add(des);
@@ -88,6 +105,7 @@ public class MainActivity2 extends AppCompatActivity {
                                 value.add(valarr);
                                 size.add(siz);
                                 editable.add(edi);
+                                score.add(scr);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -96,7 +114,7 @@ public class MainActivity2 extends AppCompatActivity {
                     }
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable);
+                MainAdapter mainAdapter = new MainAdapter(MainActivity2.this, chkpidarr, descri, typeid, value, size, editable,score);
                 recyclerView.setAdapter(mainAdapter);
 
             }

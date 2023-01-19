@@ -33,13 +33,11 @@
             app:cardCornerRadius="10dp">
 
             <EditText
-                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:backgroundTint="@color/white"
-                android:hint="name"
-                android:lineHeight="0dp"
+                android:layout_height="40dp"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:background="@color/white"
                 android:id="@+id/et1"/>
 
         </androidx.cardview.widget.CardView>
